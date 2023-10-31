@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx5ssd6i2ec4q"]
+
+[ext_resource type="Script" path="res://puzzle.gd" id="1_lc50o"]
+[ext_resource type="PackedScene" uid="uid://del4w1rt17gl8" path="res://Playground.tscn" id="2_wo6wj"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_lc50o")
+metadata/_edit_vertical_guides_ = [9.0]
+
+[node name="playground" parent="." instance=ExtResource("2_wo6wj")]
+position = Vector2(100, 227)
+tile_row = 4
+tile_column = 4
