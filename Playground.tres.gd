@@ -1,9 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://del4w1rt17gl8"]
-
-[ext_resource type="PackedScene" uid="uid://c2nfkg23qowib" path="res://background/DrawBackground.tscn" id="1_otyo0"]
-
-[sub_resource type="GDScript" id="GDScript_trgo5"]
-script/source = "extends Node2D
+extends Node2D
 
 
 enum {LEFT, RIGHT, UP, DOWN}
@@ -11,7 +6,7 @@ const SWIPE_MINI_LENGTH = 100
 var GAME_TARGET = 128
 # Declare member variables here. Examples:
 # var a = 2
-# var b = \"text\"
+# var b = "text"
 
 @export var speed:int = 500
 
@@ -21,9 +16,9 @@ var start = false
 var time = 0
 var need_move = false
 var time_direction = 1
-var Tile = preload(\"res://Tile.tscn\")
-var CorrectSound = preload(\"res://audio/tile_match.wav\")
-var tileData = preload(\"res://TileData.gd\")
+var Tile = preload("res://Tile.tscn")
+var CorrectSound = preload("res://audio/tile_match.wav")
+var tileData = preload("res://TileData.gd")
 
 var velocity = Vector2()
 
@@ -148,17 +143,17 @@ func init_tile_matrix():
 		tile_matrix.append(i)
 		
 func print_tile_matrix():
-	print(\"--------------show tile matrix-----------\")
+	print("--------------show tile matrix-----------")
 	for x in range(tile_row):
 		for y in range(tile_column):
 			var i = tile_matrix[x][y]
 			if i == null:
 				printt(null)
 			else:
-				printt(\"tile: \", i, \" pos: \", i.ps, \"num: \", i.get_num())
-		print(\"-----------------------\")
+				printt("tile: ", i, " pos: ", i.ps, "num: ", i.get_num())
+		print("-----------------------")
 	
-	print(\"-------------end------------\")
+	print("-------------end------------")
 		
 func move_tile():
 	for x in range(tile_row):
@@ -201,21 +196,21 @@ func new_tile():
 		
 	var rp = rand_pos()
 	while is_exist(rp):
-		print(\"new tile againt\")
+		print("new tile againt")
 		rp = rand_pos()
 		
 	t.position = pos_matrix[int(rp.x)][int(rp.y)]
 	t.ps = rp
 	$Tile.add_child(t)
-	print(\"add tile at \", rp)
+	print("add tile at ", rp)
 	# instance_list.append(t)
 	tile_matrix[rp.x][rp.y] = t
 
-func add_tile(row, col, text=\"2\"):
+func add_tile(row, col, text="2"):
 	var t = Tile.instantiate()
 	t.set_size(tile_size)
 	#t.set_size(Vector2(tile_size.x - 20, tile_size.y - 20))
-	#print(\"add tile size:\", )
+	#print("add tile size:", )
 	if tile_row == 9:
 		t.set_font_size(24)
 	elif tile_row == 8:
@@ -230,7 +225,7 @@ func add_tile(row, col, text=\"2\"):
 	var ps = pos_matrix[int(rp.x)][int(rp.y)]
 	#t.position = Vector2(ps.x+5, ps.y+5)
 	t.position = ps
-	print(\"Playground tile position:\", ps, ' row:',rp.x, ' col:', rp.y, ' num:', text)
+	print("Playground tile position:", ps)
 	t.ps = rp
 	$Tile.add_child(t)
 	# instance_list.append(t)
@@ -247,12 +242,12 @@ func _on_swipe_ready(dir):
 func _on_tile_update_text(tile):
 	tile.is_update = false
 	tile.update_text()
-	print(\"tile number update to \", tile.get_num())
+	print("tile number update to ", tile.get_num())
 	# is success
 	if tile.get_num() >= GAME_TARGET:
 		win_pause()
 		GAME_TARGET *= 2
-		print(\"Game Success\")
+		print("Game Success")
 
 
 var broad = []
@@ -316,12 +311,12 @@ func init(row, col):
 	return get_tree().get_current_scence()
 
 func create_tile_map():
-	print(\"view_port: \", get_viewport_rect().size)
+	print("view_port: ", get_viewport_rect().size)
 	var sz = get_viewport_rect().size
 	var margin = position.x
 	var wd = min(sz.x, sz.y) - margin*2
 	var wh = sz.y - $DrawBackground.position.y
-	print(\"wd:\", wd, \"wh:\", wh)
+	print("wd:", wd, "wh:", wh)
 	
 	#$DrawBackground.position = Vector2(margin, sz.y/2-wd/2)
 	var bg_size = Vector2(wd, wd)
@@ -330,7 +325,7 @@ func create_tile_map():
 	$DrawBackground.set_row_column(tile_row, tile_column, bg_size)
 	tile_size = $DrawBackground.get_tile_size()
 
-	print(\"draw_background position in playground: \", $DrawBackground.position, \"size:\", $DrawBackground.size)
+	print("draw_background position in playground: ", $DrawBackground.position, "size:", $DrawBackground.size)
 	pos_matrix = $DrawBackground.get_pos_matrix()
 	print(pos_matrix)
 	
@@ -345,12 +340,12 @@ func _ready():
 	randomize()
 	init_tile_matrix()
 	# signal connect
-	connect(\"swipe_ready\", self._on_swipe_ready)
-	#$UI/Dialog.connect(\"confirm_pressed\", self._on_Confirm_pressed)
-	#$UI/Dialog.connect(\"cancel_pressed\", self._on_Cancel_pressed)
-	#$UI/Win.connect(\"confirm_pressed\", self._on_win_Confirm_pressed)
-	#$UI/Win.connect(\"cancel_pressed\", self._on_win_Cancel_pressed)
-	#$UI/GG.connect(\"confirm_pressed\", self._on_gg_Confirm_pressed)
+	connect("swipe_ready", self._on_swipe_ready)
+	#$UI/Dialog.connect("confirm_pressed", self._on_Confirm_pressed)
+	#$UI/Dialog.connect("cancel_pressed", self._on_Cancel_pressed)
+	#$UI/Win.connect("confirm_pressed", self._on_win_Confirm_pressed)
+	#$UI/Win.connect("cancel_pressed", self._on_win_Cancel_pressed)
+	#$UI/GG.connect("confirm_pressed", self._on_gg_Confirm_pressed)
 	
 	create_tile_map()
 	
@@ -359,13 +354,13 @@ func _ready():
 func set_swipe(dir):
 	velocity = Vector2()
 	if dir == RIGHT:
-		#print(\"right pressed\")
+		#print("right pressed")
 		time_direction = 1
 		move_dir = RIGHT
 		velocity.x += 1
 
 	if dir == LEFT:
-		#print(\"left pressed\")
+		#print("left pressed")
 		time_direction = 1
 		move_dir = LEFT
 		velocity.x -= 1
@@ -381,18 +376,18 @@ func set_swipe(dir):
 		velocity.y -= 1
 
 	if velocity.length() > 0:
-		print(\"start move\")
+		print("start move")
 		start = true
 		set_target_vector()
 		set_move_status()
-		print(\"move: \", need_move)
+		print("move: ", need_move)
 
 
 func finish_tile(tile):
-	#print(\"pos: \", tile.ps, \" --> \", tile.is_update, tile.is_finish)
-	#print(\"ps: \", tile.ps)
-	#print(\"---------finish tile-----------\")
-	#print(tile.ps, \" to \", tile.target_pos, \"; up: \", tile.is_update, \" fin: \", tile.is_finish)
+	#print("pos: ", tile.ps, " --> ", tile.is_update, tile.is_finish)
+	#print("ps: ", tile.ps)
+	#print("---------finish tile-----------")
+	#print(tile.ps, " to ", tile.target_pos, "; up: ", tile.is_update, " fin: ", tile.is_finish)
 
 	if tile.is_update:
 		_on_tile_update_text(tile)
@@ -418,7 +413,7 @@ func is_all_stop():
 				
 			var n = tile.target_pos
 			move_target = pos_matrix[n.x][n.y]
-			#print(\"tile:\", tile.ps, \" forahead: \", n)
+			#print("tile:", tile.ps, " forahead: ", n)
 			if move_dir == LEFT:
 				if tile.position.x > move_target.x:
 					return false
@@ -449,7 +444,7 @@ func is_all_stop():
 		tile_matrix[i.ps.x][i.ps.y] = null
 		
 	for i in p:
-		print(\"tile: \", i, \" pos:\", i.ps, \" is_upadte: \", i.is_update, \" is_fin: \", i.is_finish, \"  target: \", i.target_pos)
+		print("tile: ", i, " pos:", i.ps, " is_upadte: ", i.is_update, " is_fin: ", i.is_finish, "  target: ", i.target_pos)
 		finish_tile(i)
 	print_tile_matrix()
 	return true
@@ -480,19 +475,19 @@ func set_target_vector():
 			p = get_row(move_dir, i)
 			# show all target
 			set_target_num(p, move_dir)
-			print(\"------------------move target-------------------\")
+			print("------------------move target-------------------")
 			for j in p:
-				print(j.ps, \" to \", j.target_pos, \"; up: \", j.is_update, \" fin: \", j.is_finish)
-			print(\"------------------end move target---------------\")
+				print(j.ps, " to ", j.target_pos, "; up: ", j.is_update, " fin: ", j.is_finish)
+			print("------------------end move target---------------")
 	if move_dir == UP or move_dir == DOWN:
 		for i in range(tile_column):
 			p = get_column(move_dir, i)
 			# show all target
 			set_target_num(p, move_dir)
-			print(\"------------------move target-------------------\")
+			print("------------------move target-------------------")
 			for j in p:
-				print(j.ps, \" to \", j.target_pos, \"; up: \", j.is_update, \" fin: \", j.is_finish)
-			print(\"------------------end move target---------------\")
+				print(j.ps, " to ", j.target_pos, "; up: ", j.is_update, " fin: ", j.is_finish)
+			print("------------------end move target---------------")
 		# if len(p) > 0:
 
  
@@ -505,23 +500,23 @@ func set_target_num(p, dir):
 
 	while lst_len > -1:
 		# if lst_len < len(p) - 1:
-		#print(lst_len, \"----------\", len(p)-2, \"---------\", p[lst_len].get_num(), \"-------\")
+		#print(lst_len, "----------", len(p)-2, "---------", p[lst_len].get_num(), "-------")
 		if lst_len <= len(p) - 2 and p[lst_len].get_num() == p[lst_len + 1].get_num():
 			if lst_len+2 < len(p) and p[lst_len].get_num() == p[lst_len + 2].get_num() and not is_del:
 				#print('not need show')
 				is_del = true
 			else:
 				is_del = false
-				#print(\"index: \", lst_len, \" value: \", p[lst_len])
+				#print("index: ", lst_len, " value: ", p[lst_len])
 				if dir == RIGHT:
 					p[lst_len+1].is_update = true
 					p[lst_len].is_finish = true
 				else:
 					p[lst_len+1].is_update = true
 					p[lst_len].is_finish = true
-				#print(p[lst_len+1].ps, \"------\",  p[lst_len].ps)
-				#print(p[lst_len+1].is_update, \"   \", p[lst_len+1].is_finish)
-				#print(p[lst_len].is_update, \"   \", p[lst_len].is_finish)
+				#print(p[lst_len+1].ps, "------",  p[lst_len].ps)
+				#print(p[lst_len+1].is_update, "   ", p[lst_len+1].is_finish)
+				#print(p[lst_len].is_update, "   ", p[lst_len].is_finish)
 				overlay += 1
 		# set target vector
 		if dir == RIGHT:
@@ -531,7 +526,7 @@ func set_target_num(p, dir):
 		elif dir == LEFT:
 			p[lst_len].target_pos.y = ln-lst_len-overlay-1
 			p[lst_len].target_pos.x = p[lst_len].ps.x
-			#print(p[lst_len].ps, \"---------\", p[lst_len].target_pos)
+			#print(p[lst_len].ps, "---------", p[lst_len].target_pos)
 
 		elif dir == DOWN:
 			p[lst_len].target_pos.x = tile_row-(ln-lst_len)+overlay
@@ -559,7 +554,7 @@ func _process(delta):
 	move_tile()
 
 	if is_all_stop():
-		print(\"all stop\")
+		print("all stop")
 		start = false
 		time = 0
 		print_tile_matrix()
@@ -572,15 +567,15 @@ func _process(delta):
 				new_tile()
 				pass
 
-			#print(\"---------after all stop------------\")
+			#print("---------after all stop------------")
 			#for i in instance_list:
-			#	print(\"vec: \", i.ps, \"pos\", i.position, \"num: \", i.get_num())
+			#	print("vec: ", i.ps, "pos", i.position, "num: ", i.get_num())
 			#pass
 
 func _input(event):
 	if is_pause():
 		return
-	#print(\"touch detect\")
+	#print("touch detect")
 	if event is InputEventScreenTouch and event.is_pressed():
 		var cur = event.position
 		var lc = $DrawBackground.to_local(cur)
@@ -594,24 +589,24 @@ func _input(event):
 						touch_tile_num = ps.get_num()
 		
 
-		print(\"touch start...\")
+		print("touch start...")
 	if event is InputEventScreenDrag:
-		#print(\"screen drag\")
+		#print("screen drag")
 		pass
 
 	if event is InputEventScreenTouch and not event.is_pressed():
-		print(\"touch end...\")
+		print("touch end...")
 		var cur = event.position
 		var lc = $DrawBackground.to_local(cur)
 		var end_touch_num = 0
 		var node = null
 		for i in range(tile_row):
 			for j in range(tile_column):
-				var tile = tile_matrix[i][j]
-				if tile and tile.get_rect().has_point(lc):
-					# match touch number
-					node = tile
-					end_touch_num = node.get_num()
+				node = tile_matrix[i][j]
+				if node:
+					# print(ps.get_num(), ' |', ps.position)
+					if node.get_rect().has_point(lc):
+						end_touch_num = node.get_num()
 		if touch_tile_num == end_touch_num and touch_tile_num != 0:
 			print('touch in tile:', end_touch_num)
 			move_to_empty(node)
@@ -622,49 +617,37 @@ func _input(event):
 #				return
 #			# right
 #			if cur.x > touch_start_pos.x:
-#				emit_signal(\"swipe_ready\", RIGHT)
+#				emit_signal("swipe_ready", RIGHT)
 #			else:
-#				emit_signal(\"swipe_ready\", LEFT)
+#				emit_signal("swipe_ready", LEFT)
 #		# up or down
 #		else:
 #			if y < SWIPE_MINI_LENGTH:
 #				return
 #			# down
 #			if cur.y > touch_start_pos.y:
-#				emit_signal(\"swipe_ready\", DOWN)
+#				emit_signal("swipe_ready", DOWN)
 #			else:
-#				emit_signal(\"swipe_ready\", UP)
+#				emit_signal("swipe_ready", UP)
+
 func move_to_empty(node):
 	var ps = node.ps
-
+	print('left:', tile_matrix[ps.x-1][ps.y])
+	print('right:', tile_matrix[ps.x+1][ps.y])
+	print('top:', tile_matrix[ps.x][ps.y-1])
+	print('bottom:', tile_matrix[ps.x][ps.y+1])
 	#left
 	if ps.x > 0 and (not tile_matrix[ps.x-1][ps.y]):
-		print('left row-col:', ps, ' next:', ps.x-1, ', ', ps.y)
 		node.position = pos_matrix[ps.x-1][ps.y]
-		node.ps.x -= 1
-		tile_matrix[ps.x-1][ps.y] = node
-		tile_matrix[ps.x][ps.y] = null
 	#right
 	if ps.x < (tile_column-1) and (not tile_matrix[ps.x+1][ps.y]):
-		print('right row-col:', ps, ' next:', ps.x+1, ', ', ps.y)
 		node.position = pos_matrix[ps.x+1][ps.y]
-		node.ps.x += 1
-		tile_matrix[ps.x+1][ps.y] = node
-		tile_matrix[ps.x][ps.y] = null
 	#top
 	if ps.y > 0 and (not tile_matrix[ps.x][ps.y-1]):
-		print('top row-col:', ps, ' next:', ps.x, ', ', ps.y-1)
 		node.position = pos_matrix[ps.x][ps.y-1]
-		node.ps.y -= 1
-		tile_matrix[ps.x][ps.y-1] = node
-		tile_matrix[ps.x][ps.y] = null
 	#bottom
 	if ps.y < (tile_row-1) and (not tile_matrix[ps.x][ps.y+1]):
-		print('bottom row-col:', ps, ' next:', ps.x, ', ', ps.y+1)
 		node.position = pos_matrix[ps.x][ps.y+1]
-		node.ps.y += 1
-		tile_matrix[ps.x][ps.y+1] = node
-		tile_matrix[ps.x][ps.y] = null
 
 func delete_children():
 	for n in $Tile.get_children():
@@ -673,11 +656,11 @@ func delete_children():
 
 # Signal connect
 func _on_HomeButton_pressed():
-	get_tree().change_scene(\"res://GridSelector.tscn\")
+	get_tree().change_scene("res://GridSelector.tscn")
 	pass
 	
 func _on_ResetButton_pressed():
-	print(\"ResetButton Pressed\")
+	print("ResetButton Pressed")
 	if pre_instance_list.empty() or is_pause():
 		return
 	init_tile_matrix()
@@ -687,7 +670,7 @@ func _on_ResetButton_pressed():
 	pre_instance_list = []
 
 func _on_ReloadButton_pressed():
-	print(\"ReloadButton Pressed\")
+	print("ReloadButton Pressed")
 	pause()
 
 func new_game():
@@ -697,31 +680,23 @@ func new_game():
 	print_tile_matrix()
 	
 func _on_Confirm_pressed():
-	print(\"confirm pressed\")
+	print("confirm pressed")
 	new_game()
 	recover()
 
 func _on_Cancel_pressed():
-	print(\"cancel pressed\")	
+	print("cancel pressed")	
 	recover()
 	
 func _on_win_Confirm_pressed():
-	print(\"confirm pressed\")
+	print("confirm pressed")
 	win_recover()
 
 func _on_win_Cancel_pressed():
-	print(\"cancel pressed\")	
+	print("cancel pressed")	
 	new_game()
 	win_recover()
 
 func _on_gg_Confirm_pressed():
 	new_game()
 	gg_recover()
-"
-
-[node name="playground" type="Node2D"]
-script = SubResource("GDScript_trgo5")
-
-[node name="DrawBackground" parent="." instance=ExtResource("1_otyo0")]
-
-[node name="Tile" type="Node2D" parent="."]
